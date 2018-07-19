@@ -108,6 +108,27 @@ class ImageSource extends Evented implements Source {
         });
     }
 
+    updateImage(options) {
+        if (!this.image || !options.url) {
+            return;
+        }
+
+        var updateCoords = Boolean(options.coordinates);
+
+        getImage(this.map._transformRequest(options.url, ResourceType.Image), (err, image) => {
+            if (err) {
+                this.fire(new ErrorEvent(err));
+            } else {
+                this._update = true;
+            }
+
+            this.image = image;
+            if (updateCoords && this.map) {
+                this.setCoordinates(options.coordinates);
+            }
+        });
+    }
+
     _finishLoading() {
         if (this.map) {
             this.setCoordinates(this.coordinates);
@@ -200,6 +221,11 @@ class ImageSource extends Evented implements Source {
         if (!this.texture) {
             this.texture = new Texture(context, this.image, gl.RGBA);
             this.texture.bind(gl.LINEAR, gl.CLAMP_TO_EDGE);
+
+        } else if (this._update) {
+            this.texture = new Texture(context, this.image, gl.RGBA);
+            this.texture.bind(gl.LINEAR, gl.CLAMP_TO_EDGE);
+            this._update = false;
         }
 
         for (const w in this.tiles) {

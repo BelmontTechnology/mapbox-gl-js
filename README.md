@@ -1,3 +1,6 @@
+# Belmont Fork
+Active until PR is merged into mapboxgl-js mainline (https://github.com/mapbox/mapbox-gl-js/issues/4050)
+
 [<img width="400" alt="Mapbox" src="docs/pages/assets/logo.png">](https://www.mapbox.com/)
 
 **Mapbox GL JS** is a JavaScript library for interactive, customizable vector maps on the web. It takes map styles that conform to the
